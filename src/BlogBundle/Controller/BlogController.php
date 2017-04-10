@@ -21,7 +21,7 @@ class BlogController extends Controller
     {
         $latestPosts = $this->getDoctrine()
             ->getRepository('BlogBundle:Post')
-            ->findBy([], ['publishedAt' => 'DESC'], 3);
+            ->findBy([], ['publishedAt' => 'DESC'], 5);
 
         return $this->render('BlogBundle:Blog:index.html.twig', [
             'posts' => $latestPosts,
@@ -45,7 +45,10 @@ class BlogController extends Controller
         ->getRepository('BlogBundle:Category');
 
 ## findOneBy = SELECT * from categorie WHERE slug = $categorieSlug  ##
-        $category = $repository->findOneBy(['slug' => $categorySlug]);
+        $category = $repository->findOneBy(
+            [
+                'slug' => $categorySlug
+            ]);
 
 
         if (null == $category) {
@@ -56,6 +59,8 @@ class BlogController extends Controller
 
         return $this->render('BlogBundle:Blog:category.html.twig', ['category' => $category, ]);
     }
+
+
 
     /**
      * Post detail action.
@@ -71,13 +76,17 @@ class BlogController extends Controller
         ->getDoctrine()
         ->getRepository('BlogBundle:Post');
 
-        $post = $repository->findOneBy([
-            'id' => $categorySlug,
-            'slug' => $postSlug]);
+        $post = $repository->findOneBy(
+            [
+                'category_id' => $categorySlug,
+                'slug' => $postSlug
+            ]);
 
 
 
 
-        return $this->render('BlogBundle:Blog:post.category.html.twig');
+        return $this->render('BlogBundle:Blog:post.html.twig',
+            ['category' => $categorySlug,
+            'post' => $postSlug]);
     }
 }
