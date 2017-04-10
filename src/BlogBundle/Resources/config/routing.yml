@@ -1,3 +1,8 @@
 blog_index:
     path:     /
-    defaults: { _controller: BlogBundle:Blog:index }
+    defaults: 
+        _controller: BlogBundle:Blog:index
+
+blog:
+    resource: "routing/blog.yml"
+    prefix: /blog

@@ -4,6 +4,7 @@ namespace BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class BlogController
@@ -34,7 +35,7 @@ class BlogController extends Controller
      *
      * @return Response
      */
-    public function categoryAction($categorySlug)
+    public function categoryAction(Request $request)
     {
         return new Response('Category action');
     }
