@@ -35,9 +35,26 @@ class BlogController extends Controller
      *
      * @return Response
      */
-    public function categoryAction(Request $request)
+## $categorySlug doit correspondre a l'URL variable dans blog.yml  ##
+    public function categoryAction($categorySlug)
     {
-        return new Response('Category action');
+    
+        $repository = $this
+        ->getDoctrine()
+## Category est la class Category.php dans Entity  ##
+        ->getRepository('BlogBundle:Category');
+
+## findOneBy = SELECT * from categorie WHERE slug = $categorieSlug  ##
+        $category = $repository->findOneBy(['slug' => $categorySlug]);
+
+
+        if (null == $category) {
+            
+            throw $this->createNotFoundException('Category not Found');
+        }
+
+
+        return $this->render('BlogBundle:Blog:category.html.twig', ['category' => $category, ]);
     }
 
     /**
@@ -50,6 +67,17 @@ class BlogController extends Controller
      */
     public function postAction($categorySlug, $postSlug)
     {
-        return new Response('Post action');
+        $repository = $this
+        ->getDoctrine()
+        ->getRepository('BlogBundle:Post');
+
+        $post = $repository->findOneBy([
+            'id' => $categorySlug,
+            'slug' => $postSlug]);
+
+
+
+
+        return $this->render('BlogBundle:Blog:post.category.html.twig');
     }
 }
